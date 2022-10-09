@@ -47,20 +47,15 @@ echo "<script> window.location.href='./?page=tickets&ids=$iding' </script>";
         <div class="col-sm-6">
             <div class="card rounded-0 card-outline card-primary shadow">
                 <div class="card-header rounded-0">
-                    <h5 class="card-title">Payment Pending</h5>
+                    <h5 class="card-title">Payment Instructions</h5>
                 </div>
                 <div class="card-body rounded-0">
-                    <h1 class="text-danger">Don't leave this page we will redirect you when the payment process is complete!</h1>
-                    <!-- <form action="#" method="POST">
-                        <div class="form-group">
-                            <input type="text" class="form-control form-control-sm form-control-border" name="token" required>
-                            <small class="text-muted mx-2">Enter Transaction Token</small>
-                        </div>
-                        <input type="submit" name="pay" value="Pay" class="btn btn-primary btn-block"><br>
-                    </form> -->
-                    <!-- <span class="text-danger">
-                        <center>Please await for approval of the payments to get your ticket</center>
-                    </span> -->
+                    <h3 class="text-success">Bank Account</h3>
+                    Bank Account Number: XXXXXXXXXXXXXXXXXX <br>
+                    Bank Account Name: XXXXXX XXXXXXX
+                    <hr>
+                    <span class="text-danger">Please pay then proceed!</span><br>
+                    <button class="btn btn-primary btn-block"  onclick="">Proceed <b>>>></b></button><!-- the next page iscalled pending -->
                 </div>
             </div>
         </div>
