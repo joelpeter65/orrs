@@ -80,6 +80,10 @@ $train_group = ['','First Class','Economy'];
                 <div class="col-auto pr-2"><b>Passenger Name:</b></div>
                 <div class="col-auto flex-grow-1 border-bottom border-dark"><b><?= strtoupper($row['lastname'].', '.$row['firstname'].' '.$row['middlename']) ?></b></div>
             </div>
+            <div class="row">
+                        <div class="col-auto pr-2"><b>Price:</b></div>
+                        <div class="col-auto flex-grow-1 border-bottom border-dark"><b><?= strtoupper($row['fare_amount']) ?></b></div>
+                    </div>
             <div class="clear-fix my-5"></div>
             <div class="d-flex justify-content-end" id="assignatory">
                 <div class="col-md-4">

@@ -6,6 +6,7 @@ $res = $trains->fetch_all(MYSQLI_ASSOC);
 $train_fcf_arr = array_column($res,'first_class_capacity','id');
 $train_ef_arr = array_column($res,'economy_capacity','id');
 $train_arr = array_column($res,'train','id');
+$pc = array_column($res,'fare_amount','id');
 $_SESSION['id'] = $_GET['sid'];
 $qry = $conn->query("SELECT * from `schedule_list` where delete_flag = 0 and id='{$_GET['sid']}'");
 if($qry->num_rows > 0){
@@ -19,6 +20,21 @@ $$k = $v;
 }
 } else{
 // echo '<script> alert("Schedule ID is required to view this page.");location.replace("./?page=schedules") </script>';
+}
+?>
+<?php
+if(isset($_GET['ids'])){
+    $trains = $conn->query("SELECT *,Concat(code,' - ',`name`) as train FROM `train_list` where id in (SELECT train_id FROM `schedule_list` where delete_flag = 0 and id in (SELECT schedule_id FROM `reservation_list` where id in ({$_GET['ids']}) ) )");
+    $res = $trains->fetch_all(MYSQLI_ASSOC);
+    $train_fcf_arr = array_column($res,'first_class_capacity','id');
+    $train_ef_arr = array_column($res,'economy_capacity','id');
+    $train_arr = array_column($res,'train','id');
+    $qry = $conn->query("SELECT r.*,s.code as sched_code,s.train_id from `reservation_list` r inner join `schedule_list` s on r.schedule_id = s.id where r.id in ({$_GET['ids']}) ");
+    if($qry->num_rows > 0){
+        $res = $qry->fetch_all(MYSQLI_ASSOC);
+    }else{
+        echo '<script> alert("Unkown Reservation ID(s).");location.replace("./?page=schedules") </script>';
+    }
 }
 ?>
 <?php
@@ -53,6 +69,11 @@ echo "<script> window.location.href='./?page=tickets&ids=$iding' </script>";
                     <h3 class="text-success">Bank Account</h3>
                     Bank Account Number: XXXXXXXXXXXXXXXXXX <br>
                     Bank Account Name: XXXXXX XXXXXXX
+                    <br>
+                     <?php $pc = 0; foreach($res as $row): 
+                        $pc += $row['fare_amount'];
+                endforeach ?>
+                    Price : <?= strtoupper($pc) ?>
                     <hr>
                     <span class="text-danger">Please pay then proceed!</span><br>
                     <button class="btn btn-primary btn-block"  onclick="location.href='./?page=pending&ids=<?php echo $_SESSION["iding"] ?>'">Proceed <b>>>></b></button><!-- the next page iscalled pending -->

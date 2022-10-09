@@ -393,7 +393,7 @@ transform: scale(2) translateX(45px);
 </div>
 <script>
     function doAjax() {
-    var sid= <?php echo $_SESSION['iding']; ?>;
+    var sid= "<?php echo $_SESSION['iding']; ?>";
     var interval = 1000;  // 1000 = 1 second, 3000 = 3 seconds
     $.ajax({
             url: _base_url_+"classes/Master.php?f=check_payment",

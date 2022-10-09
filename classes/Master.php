@@ -248,7 +248,7 @@ Class Master extends DBConnection {
         $id = $_SESSION['iding'];
         extract($_POST);
         // $this->settings->set_flashdata('success',"Payment has been successfully confirmed.");
-        $chk = $this->conn->query("SELECT * FROM `reservation_list` where id = '{$id}' AND payment_status = 'paid'")->num_rows;
+        $chk = $this->conn->query("SELECT * FROM `reservation_list` where id in ('$id') AND payment_status = 'paid'")->num_rows;
         if($chk > 0){
             $resp['status'] = 'success';
             // $this->settings->set_flashdata('success',"Payment has been successfully confirmed.");
