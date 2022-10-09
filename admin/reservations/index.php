@@ -57,6 +57,7 @@
 								<span class="sr-only">Toggle Dropdown</span>
 								</button>
 								<div class="dropdown-menu" role="menu">
+									<a class="dropdown-item verify_data" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>"><span class="fa fa-check-circle text-gray"></span> Verify</a>
 									<a class="dropdown-item view_data" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>"><span class="fa fa-window-restore text-gray"></span> View</a>
 									<div class="dropdown-divider"></div>
 									<a class="dropdown-item delete_data" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>"><span class="fa fa-trash text-danger"></span> Delete</a>
@@ -78,10 +79,13 @@
 		$('.delete_data').click(function(){
 			_conf("Are you sure to delete this Reservation permanently?","delete_reservation",[$(this).attr('data-id')])
 		})
+		$('.verify_data').click(function(){
+			_conf("Do you agree that you have received payment?","verify_payment",[$(this).attr('data-id')])
+		})
 		$('.table td,.table th').addClass('py-1 px-2 align-middle')
 		$('.table').dataTable({
 columnDefs: [
-{ orderable: false, targets: 5 }
+{ orderable: true, targets: 7 }
 ],
 });
 	})
@@ -89,6 +93,28 @@ columnDefs: [
 		start_loader();
 		$.ajax({
 			url:_base_url_+"classes/Master.php?f=delete_reservation",
+			method:"POST",
+			data:{id: $id},
+			dataType:"json",
+			error:err=>{
+				console.log(err)
+				alert_toast("An error occured.",'error');
+				end_loader();
+			},
+			success:function(resp){
+				if(typeof resp== 'object' && resp.status == 'success'){
+					location.reload();
+				}else{
+					alert_toast("An error occured.",'error');
+					end_loader();
+				}
+			}
+		})
+	}
+	function verify_payment($id){
+		start_loader();
+		$.ajax({
+			url:_base_url_+"classes/Master.php?f=verify_payment",
 			method:"POST",
 			data:{id: $id},
 			dataType:"json",

@@ -244,6 +244,19 @@ Class Master extends DBConnection {
 		}
 		return json_encode($resp);
 	}
+	function check_payment(){
+        $id = $_SESSION['iding'];
+        extract($_POST);
+        // $this->settings->set_flashdata('success',"Payment has been successfully confirmed.");
+        $chk = $this->conn->query("SELECT * FROM `reservation_list` where id = '{$id}' AND payment_status = 'paid'")->num_rows;
+        if($chk > 0){
+            $resp['status'] = 'success';
+            // $this->settings->set_flashdata('success',"Payment has been successfully confirmed.");
+            // echo "<script>location.href = './?page=tickets&ids=$id'</script>";
+        }
+        // echo 'SESSION: '.$_SESSION['iding'];
+        return json_encode($resp);
+    }
 	function save_reservation(){
 		$_POST['schedule'] = $_POST['date'] ." ".$_POST['time'];
 		extract($_POST);
@@ -327,6 +340,19 @@ Class Master extends DBConnection {
 		}
 		return json_encode($resp);
 	}
+	function verify_payment(){
+		extract($_POST);
+		$del = $this->conn->query("UPDATE `reservation_list` set `payment_status` = 'paid' where id = '{$id}'");
+		if($del){
+			$resp['status'] = 'success';
+			$this->settings->set_flashdata('success',"reservation payment has successfully accepted.");
+
+		}else{
+			$resp['status'] = 'failed';
+			$resp['error'] = $this->conn->error;
+		}
+		return json_encode($resp);
+	}
 }
 
 $Master = new Master();
@@ -351,6 +377,13 @@ switch ($action) {
 	case 'save_train':
 		echo $Master->save_train();
 	break;
+	case 'check_payment':
+		echo $Master->check_payment();
+	break;
+	case 'verify_payment':
+		echo $Master->verify_payment();
+	break;
+
 	case 'delete_train':
 		echo $Master->delete_train();
 	break;

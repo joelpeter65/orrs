@@ -55,7 +55,7 @@ echo "<script> window.location.href='./?page=tickets&ids=$iding' </script>";
                     Bank Account Name: XXXXXX XXXXXXX
                     <hr>
                     <span class="text-danger">Please pay then proceed!</span><br>
-                    <button class="btn btn-primary btn-block"  onclick="">Proceed <b>>>></b></button><!-- the next page iscalled pending -->
+                    <button class="btn btn-primary btn-block"  onclick="location.href='./?page=pending&ids=<?php echo $_SESSION["iding"] ?>'">Proceed <b>>>></b></button><!-- the next page iscalled pending -->
                 </div>
             </div>
         </div>

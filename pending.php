@@ -391,3 +391,33 @@ transform: scale(2) translateX(45px);
         <div class="col-sm-3"></div>
     </div>
 </div>
+<script>
+    function doAjax() {
+    var sid= <?php echo $_SESSION['iding']; ?>;
+    var interval = 1000;  // 1000 = 1 second, 3000 = 3 seconds
+    $.ajax({
+            url: _base_url_+"classes/Master.php?f=check_payment",
+            data: interval,
+            cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type: 'POST',
+                dataType: 'json',
+                success:function(resp){
+                    if(resp.status == 'success'){
+                        // alert_toast("Success",'success')
+                        location.href = "./?page=tickets&ids="+sid
+                    }
+            },
+    });
+}
+$(document).ready(function(){
+    setInterval(function() {
+            doAjax();
+    }, 1000);
+});
+
+
+
+</script>
